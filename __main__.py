@@ -5,6 +5,7 @@ import numpy as np
 from Schedule import Schedule
 from GeneticAlgorithm import GeneticAlgorithm
 
+from Output import output_df
 import matplotlib.pyplot as plt
 
 from enums import RoomType, Weekday, ClassType
@@ -56,7 +57,7 @@ room1 = {"room_number": ROOM_NUMBERS[0], "room_type": RoomType.S}
 #             t.append({'weekday': Weekday(week_day), 'time_period': time_period})
 
 for group in GROUPS:
-    group_disciplines = np.random.choice(DISCIPLINES, 4, replace=False)
+    group_disciplines = np.random.choice(DISCIPLINES, 5, replace=False)
     for discipline in group_disciplines:
         discipline_teachers = np.random.choice(
             DISCIPLINES_TEACHERS[discipline], 3, replace=True
@@ -113,12 +114,14 @@ init_args = {
 ga = GeneticAlgorithm(Schedule, 200, 0.1, init_args, {}, max_iter=1000, max_iter_no_improve=150)  # type: ignore
 
 ga.run()
-print(ga.best_solution.conflict) # type: ignore
-print(ga.best_solution.alpha) # type: ignore
-print(ga.best_solution.tau) # type: ignore
+# print(ga.best_solution.conflict) # type: ignore
+# print(ga.best_solution.alpha) # type: ignore
+# print(ga.best_solution.tau) # type: ignore
 # list_week = [[], [], [], [], [], []]
 # for idx, period in enumerate(ga.best_solution.tau):
 #     list_week[period['weekday']].append(z[idx])
 # print(list_week)
+df = output_df(z, ga.best_solution.alpha, ga.best_solution.tau) # type: ignore
+df.to_excel('Schedule.xlsx')
 plt.plot(ga.history)
 plt.show()

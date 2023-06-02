@@ -48,7 +48,7 @@ def mutate_worker(chromosomes: np.ndarray):
 
 class GeneticAlgorithm:
     best_solution: Chromosome
-    history: list[float]
+    history: 'list[float]'
 
     def __init__(
         self,
@@ -147,4 +147,6 @@ class GeneticAlgorithm:
             or self.iter_no_improve < self.max_iter_no_improve
         ):
             self.next_generation()
+            if self.iter % 10 == 0:
+                print(f'{self.iter} iteration')
         return self.best_solution
