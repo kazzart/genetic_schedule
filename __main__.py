@@ -56,8 +56,8 @@ room1 = {"room_number": ROOM_NUMBERS[0], "room_type": RoomType.S}
 #     for time_period in range(7):
 #             t.append({'weekday': Weekday(week_day), 'time_period': time_period})
 
-for group in GROUPS:
-    group_disciplines = np.random.choice(DISCIPLINES, 5, replace=False)
+for group in range(len(GROUPS)):
+    group_disciplines = np.random.choice(DISCIPLINES, 6, replace=False)
     for discipline in group_disciplines:
         discipline_teachers = np.random.choice(
             DISCIPLINES_TEACHERS[discipline], 3, replace=True
@@ -106,12 +106,14 @@ print(z, a)
 init_args = {
     "classes": z,
     "rooms": a,
+    "teachers": TEACHERS,
+    "groups": GROUPS,
     "number_of_classes": len(z),
     "alpha": None,
     "tau": None,
     "number_of_genes_to_mutate": 1,
 }
-ga = GeneticAlgorithm(Schedule, 200, 0.1, init_args, {}, max_iter=1000, max_iter_no_improve=150)  # type: ignore
+ga = GeneticAlgorithm(Schedule, 200, 0.1, init_args, {}, max_iter=3000, max_iter_no_improve=150)  # type: ignore
 
 ga.run()
 # print(ga.best_solution.conflict) # type: ignore
@@ -122,6 +124,15 @@ ga.run()
 #     list_week[period['weekday']].append(z[idx])
 # print(list_week)
 df = output_df(z, ga.best_solution.alpha, ga.best_solution.tau) # type: ignore
+history = list(zip(*ga.history))
+print(history)
+plt.plot(history[0], label='Conflicts') # type: ignore
+plt.plot(history[1], label='Quality') # type: ignore
+plt.legend(loc="lower right")
+plt.xlabel('Iteration')
+plt.ylabel('Points')
+plt.title('Fitness history')
+# plt.show()
+plt.savefig('figure.png')
+# print(ga.history)
 df.to_excel('Schedule.xlsx')
-plt.plot(ga.history)
-plt.show()

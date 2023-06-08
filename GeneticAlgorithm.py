@@ -7,7 +7,7 @@ import numpy as np
 
 class Chromosome(ABC):
     @abstractmethod
-    def fitness(self, **kwargs) -> float:
+    def fitness(self, **kwargs) -> tuple[float, float]:
         pass
 
     @abstractmethod
@@ -48,7 +48,7 @@ def mutate_worker(chromosomes: np.ndarray):
 
 class GeneticAlgorithm:
     best_solution: Chromosome
-    history: 'list[float]'
+    history: 'list[tuple[float, float]]'
 
     def __init__(
         self,
@@ -73,12 +73,16 @@ class GeneticAlgorithm:
 
         self.population = np.asarray(
             [
-                Chromosome(**init_args) for _ in range(population_size)  # type: ignore
+                # type: ignore
+                Chromosome(**init_args) for _ in range(population_size)
             ]  # type: ignore
         )
-        self.fitnesses = np.empty(shape=(self.population_size), dtype=np.float32)
+        self.fitnesses = np.empty(
+            shape=(self.population_size), dtype=np.float32)
         self._get_fitnesses()
         self._rank()
+        if self.fitnesses[-1][0] < 0:
+            print('Есть конфликты')
         self.best_solution = self.population[0].copy()
         self.history = [self.fitnesses[0]]
 
@@ -88,17 +92,22 @@ class GeneticAlgorithm:
         # res = parr(calc_fitness_worker(chunks[i], self.fitness_args) for i in range(self.n_jobs))
         # self.population, self.fitnesses = np.hstack(res)
         # self.fitnesses = self.fitnesses.astype(np.float32)
-        self.fitnesses = np.asarray(
-            [chromosome.fitness(**self.fitness_args) for chromosome in self.population]
+        self.fitnesses = np.array(
+            [chromosome.fitness(**self.fitness_args)
+             for chromosome in self.population], dtype=[('x', 'f4'), ('y', 'f4')]
         )
 
     def _rank(self):
-        indicies = np.flip(np.argsort(self.fitnesses))
+        indicies = np.flip(np.argsort(self.fitnesses, order=('x', 'y')))
         self.population = self.population[indicies]
         self.fitnesses = self.fitnesses[indicies]
 
     def _breed(self):
-        weights = np.divide(self.fitnesses, np.sum(self.fitnesses))
+
+        weights = np.divide(np.arange(self.population_size),
+                            (self.population_size - 1) * self.population_size / 2)
+        weights = np.flip(weights)
+        # weights = np.divide(self.fitnesses, np.sum(self.fitnesses))
         # offsprings = []
         # for i in np.arange(self.elite_size):
         #     offsprings.append(self.population[i].copy())
@@ -134,7 +143,10 @@ class GeneticAlgorithm:
         self._get_fitnesses()
         self._rank()
         self.history.append(self.fitnesses[0])
-        if self.best_solution.fitness(**self.fitness_args) < self.history[-1]:
+        if self.best_solution.fitness(**self.fitness_args)[0] < self.history[-1][0]:
+            self.best_solution = self.population[0].copy()
+            self.iter_no_improve = 0
+        elif self.best_solution.fitness(**self.fitness_args)[0] == self.history[-1][0] and self.best_solution.fitness(**self.fitness_args)[1] < self.history[-1][1]:
             self.best_solution = self.population[0].copy()
             self.iter_no_improve = 0
         else:
