@@ -5,11 +5,25 @@ from enums import RoomType, Weekday, ClassType
 
 
 def generate_schedule(z, a, teachers, groups):
+    """
+    Generates a schedule for classes based on certain constraints.
+
+    Args:
+        z (list): A list of dictionaries representing classes, each containing information such as the teacher, group, and room type.
+        a (list): A list of dictionaries representing rooms, each containing information such as the room type.
+        teachers (list): A list of dictionaries representing teachers.
+        groups (list): A list of dictionaries representing groups.
+
+    Returns:
+        tuple: A tuple containing two arrays:
+            - alpha: An array containing the assigned rooms for each class.
+            - tau: An array containing the assigned periods for each class.
+    """
     t = []  # Periods
     for week_day in range(1, 7):
         for time_period in range(7):
             t.append({"weekday": Weekday(week_day),
-                     "time_period": time_period})
+                      "time_period": time_period})
 
     teacher_ij = np.zeros((len(teachers), 6, 7))
     group_ij = np.zeros((len(groups), 6, 7))
