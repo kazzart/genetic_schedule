@@ -9,12 +9,12 @@ def output_df(classes: list, alpha: np.ndarray, tau: np.ndarray):
     Generate a schedule dataframe based on the given classes, alpha values, and tau values.
 
     Args:
-        classes (list): A list of dictionaries representing different classes. Each dictionary contains the keys 'group', 'discipline', 'class_type', and 'teacher'.
-        alpha (np.ndarray): A numpy array of alpha values.
-        tau (np.ndarray): A numpy array of tau values. Each tau value is a dictionary with the keys 'weekday' and 'time_period'.
+        - classes (list): A list of dictionaries representing different classes. Each dictionary contains the keys 'group', 'discipline', 'class_type', and 'teacher'.
+        - alpha (np.ndarray): A numpy array of alpha values.
+        - tau (np.ndarray): A numpy array of tau values. Each tau value is a dictionary with the keys 'weekday' and 'time_period'.
 
     Returns:
-        pd.DataFrame: A pandas dataframe representing the schedule for different groups and time periods.
+        - pd.DataFrame: A pandas dataframe representing the schedule for different groups and time periods.
     """
     schedule = {}
     t = []  # Periods

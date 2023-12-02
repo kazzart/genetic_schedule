@@ -9,10 +9,10 @@ def generate_schedule(z, a, teachers, groups):
     Generates a schedule for classes based on certain constraints.
 
     Args:
-        z (list): A list of dictionaries representing classes, each containing information such as the teacher, group, and room type.
-        a (list): A list of dictionaries representing rooms, each containing information such as the room type.
-        teachers (list): A list of dictionaries representing teachers.
-        groups (list): A list of dictionaries representing groups.
+        - z (list): A list of dictionaries representing classes, each containing information such as the teacher, group, and room type.
+        - a (list): A list of dictionaries representing rooms, each containing information such as the room type.
+        - teachers (list): A list of dictionaries representing teachers.
+        - groups (list): A list of dictionaries representing groups.
 
     Returns:
         tuple: A tuple containing two arrays:

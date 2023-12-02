@@ -6,53 +6,53 @@ from Generator import generate_schedule
 
 class Schedule(Chromosome):
     """
-The `Schedule` class represents a schedule for a set of classes. It is a subclass of the `Chromosome` class and contains methods for calculating the fitness of the schedule, breeding new schedules, and mutating existing schedules.
+    The `Schedule` class represents a schedule for a set of classes. It is a subclass of the `Chromosome` class and contains methods for calculating the fitness of the schedule, breeding new schedules, and mutating existing schedules.
 
-Example Usage:
-    # Create a schedule
-    schedule = Schedule(classes, rooms, teachers, groups, number_of_classes)
+    Example Usage:
+        Create a schedule
+            schedule = Schedule(classes, rooms, teachers, groups, number_of_classes)
 
-    # Calculate the fitness of the schedule
-    fitness = schedule.fitness()
+        Calculate the fitness of the schedule
+            fitness = schedule.fitness()
 
-    # Breed two schedules
-    offspring = schedule.breed(other_schedule)
+        Breed two schedules
+            offspring = schedule.breed(other_schedule)
 
-    # Mutate a schedule
-    schedule.mutate()
+        Mutate a schedule
+            schedule.mutate()
 
-    # Create a copy of a schedule
-    copy_schedule = schedule.copy()
+        Create a copy of a schedule
+            copy_schedule = schedule.copy()
 
-Methods:
-    __init__(self, classes, rooms, teachers, groups, number_of_classes, alpha=None, tau=None, number_of_genes_to_mutate=1): 
-        Initializes a new instance of the `Schedule` class with the given parameters. If alpha and tau are not provided, they are generated using the `generate_schedule` function.
-    
-    conflicts(self, class_num_i, class_num_j): 
-        Calculates the number of conflicts between two classes based on their alpha and tau values.
-    
-    fitness(self): 
-        Calculates the fitness of the schedule based on conflicts and quality criteria.
-    
-    breed(self, other): 
-        Breeds two schedules by combining their alpha and tau vectors.
-    
-    mutate(self): 
-        Mutates the schedule by randomly changing the alpha and tau vectors.
-    
-    copy(self): 
-        Creates a copy of the schedule.
+    Methods:
+        __init__(self, classes, rooms, teachers, groups, number_of_classes, alpha=None, tau=None, number_of_genes_to_mutate=1): 
+            Initializes a new instance of the `Schedule` class with the given parameters. If alpha and tau are not provided, they are generated using the `generate_schedule` function.
+        
+        conflicts(self, class_num_i, class_num_j): 
+            Calculates the number of conflicts between two classes based on their alpha and tau values.
+        
+        fitness(self): 
+            Calculates the fitness of the schedule based on conflicts and quality criteria.
+        
+        breed(self, other): 
+            Breeds two schedules by combining their alpha and tau vectors.
+        
+        mutate(self): 
+            Mutates the schedule by randomly changing the alpha and tau vectors.
+        
+        copy(self): 
+            Creates a copy of the schedule.
 
-Fields:
-    classes: A list of class objects.
-    rooms: A list of room objects.
-    teachers: A list of teacher objects.
-    groups: A list of group objects.
-    number_of_classes: The number of classes in the schedule.
-    number_of_genes_to_mutate: The number of genes to mutate when performing a mutation.
-    alpha: The room for each class.
-    tau: The period for each class.
-"""
+    Fields:
+        classes: A list of class objects.
+        rooms: A list of room objects.
+        teachers: A list of teacher objects.
+        groups: A list of group objects.
+        number_of_classes: The number of classes in the schedule.
+        number_of_genes_to_mutate: The number of genes to mutate when performing a mutation.
+        alpha: The room for each class.
+        tau: The period for each class.
+    """
     def __init__(
         self,
         classes: list,
@@ -60,8 +60,8 @@ Fields:
         teachers: list,
         groups: list,
         number_of_classes: int,
-        alpha: np.ndarray | None = None,
-        tau: np.ndarray | None = None,
+        # alpha: np.ndarray | None = None,
+        # tau: np.ndarray | None = None,
         number_of_genes_to_mutate: int = 1,
     ) -> None:
         # Solution vectors

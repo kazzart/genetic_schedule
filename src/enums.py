@@ -3,9 +3,10 @@ from enum import Enum
 
 class RoomType(Enum):
     """
-    T - small room 1 group laboratory classes
-    S - small room 1 group practical classes
-    B - big room any number of groups
+    Types of rooms described in one letter:
+        - T - small room 1 group laboratory classes
+        - S - small room 1 group practical classes
+        - B - big room any number of groups
     """
 
     T = 1
